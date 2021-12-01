@@ -4,6 +4,7 @@ const lines = fs
 	.split('\n')
 	.map(num => Number.parseInt(num));
 
+// Part 1
 let numIncreases = 0;
 
 for (let i = 1; i < lines.length; i++) {
@@ -13,3 +14,17 @@ for (let i = 1; i < lines.length; i++) {
 }
 
 console.log(numIncreases);
+
+// Part 2
+let numSlidingWindowIncreases = 0;
+let previousWindow = Number.MAX_SAFE_INTEGER;
+for (let i = 2; i < lines.length; i++) {
+	let window = lines[i - 2] + lines[i - 1] + lines[i];
+	if (window > previousWindow) {
+		numSlidingWindowIncreases++;
+	}
+
+	previousWindow = window;
+}
+
+console.log(numSlidingWindowIncreases);
