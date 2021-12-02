@@ -8,20 +8,42 @@ const lines = fs
 		return [direction, amount];
 	});
 
+// let horizontalOffset = 0;
+// let verticalOffset = 0;
+
+// for (const step of lines) {
+// 	const [direction, amount] = step;
+// 	switch (direction) {
+// 		case 'forward':
+// 			horizontalOffset += amount;
+// 			break;
+// 		case 'down':
+// 			verticalOffset += amount;
+// 			break;
+// 		case 'up':
+// 			verticalOffset -= amount;
+// 			break;
+// 	}
+// }
+
+// console.log(horizontalOffset * verticalOffset);
+
 let horizontalOffset = 0;
 let verticalOffset = 0;
+let aim = 0;
 
 for (const step of lines) {
 	const [direction, amount] = step;
 	switch (direction) {
 		case 'forward':
 			horizontalOffset += amount;
+			verticalOffset += (aim * amount);
 			break;
 		case 'down':
-			verticalOffset += amount;
+			aim += amount;
 			break;
 		case 'up':
-			verticalOffset -= amount;
+			aim -= amount;
 			break;
 	}
 }
