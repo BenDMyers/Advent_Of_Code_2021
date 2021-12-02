@@ -30,3 +30,4 @@ node 07
 | Day | Takeaways |
 |-----|----------|
 | [Day 1](/01/) | Arrays and rolling sums |
+| [Day 2](/02/) | Direction-and-distance instructions |
