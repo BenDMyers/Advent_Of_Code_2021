@@ -38,10 +38,11 @@ const lines = fs
 // Part 2
 (function () {
 	/**
-	 * 
-	 * @param {string[]} bitstrings 
-	 * @param {number} index
-	 * @returns {string}
+	 * Determines the most common bit in a given position given a list of bitstrings.
+	 * Defaults to `1` in a tie.
+	 * @param {string[]} bitstrings - a list of bitstrings
+	 * @param {number} index - current position within the bitstring
+	 * @returns {'0' | '1'} - most common bit in the given location (defaults to `1` in a tie)
 	 */
 	function getMostCommonBit(bitstrings, index) {
 		let zeroes = 0;
@@ -63,10 +64,11 @@ const lines = fs
 	}
 
 	/**
-	 * 
-	 * @param {string[]} bitstrings 
-	 * @param {number} index
-	 * @returns {string}
+	 * Determines the least common bit in a given position given a list of bitstrings.
+	 * Defaults to `0` in a tie.
+	 * @param {string[]} bitstrings - a list of bitstrings
+	 * @param {number} index - current position within the bitstring
+	 * @returns {'0' | '1'} - least common bit in the given location (defaults to `0` in a tie)
 	 */
 	 function getLeastCommonBit(bitstrings, index) {
 		let zeroes = 0;
@@ -87,6 +89,7 @@ const lines = fs
 		}
 	}
 
+	// Determine the oxygen generator rating
 	let oxygenGeneratorCandidates = lines.map(line => line.join(''));
 	let oxygenGeneratorBitIndex = 0;
 	while (oxygenGeneratorCandidates.length > 1) {
@@ -98,10 +101,11 @@ const lines = fs
 		oxygenGeneratorCandidates = oxygenGeneratorCandidates.filter(candidate => candidate.charAt(oxygenGeneratorBitIndex) === mostCommonBit);
 		oxygenGeneratorBitIndex++;
 	}
-	
+
 	const [oxygenGeneratorRatingBitstring] = oxygenGeneratorCandidates;
 	const oxygenGeneratorRating = parseInt(oxygenGeneratorRatingBitstring, 2);
 
+	// Determine the CO2 scrubber rating
 	let co2ScrubberCandidates = lines.map(line => line.join(''));
 	let co2ScrubberBitIndex = 0;
 	while (co2ScrubberCandidates.length > 1) {
@@ -116,5 +120,6 @@ const lines = fs
 	const [co2ScrubberRatingBitstring] = co2ScrubberCandidates;
 	const co2ScrubberRating = parseInt(co2ScrubberRatingBitstring, 2);
 
+	// Final product
 	console.log(oxygenGeneratorRating * co2ScrubberRating);
 })();
