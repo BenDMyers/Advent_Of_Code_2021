@@ -31,3 +31,4 @@ node 07
 |-----|----------|
 | [Day 1](/01/) | Arrays and rolling sums |
 | [Day 2](/02/) | Direction-and-distance instructions |
+| [Day 3](/03/) | Most and least common bits in a list of bitstrings |
