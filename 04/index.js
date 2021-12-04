@@ -12,7 +12,7 @@ const [calledNumbersInput, ...boardsInput] = fs
  * @param {(number|false)[][]} board - two-dimensional array of numbers, where called numbers have been replaced by `false`
  * @returns {boolean} true if the board is a winner, false otherwise
  */
-function getBoardVictoryStatus(board) {
+function getIsWinner(board) {
 	// Check rows
 	rows:
 	for (let row = 0; row < board.length; row++) {
@@ -60,13 +60,13 @@ function markCalledNumber(board, calledNumber) {
 
 	// Keep playing rounds of bingo until one board wins
 	let called;
-	while (!boards.some(getBoardVictoryStatus)) {
+	while (!boards.some(getIsWinner)) {
 		called = calledNumbers.shift();
 		boards.forEach(board => markCalledNumber(board, called));
 	}
 	
 	// Determine score of winning board (sum of all remaining values)
-	const [winningBoard] = boards.filter(getBoardVictoryStatus);
+	const winningBoard = boards.find(getIsWinner);
 	const sum = winningBoard
 		.flat() // Convert two-dimensional array to one-dimensional array
 		.filter(x => x) // Filter out falsy values
@@ -90,12 +90,12 @@ function markCalledNumber(board, calledNumber) {
 	while (boards.length > 1) {
 		called = calledNumbers.shift();
 		boards.forEach(board => markCalledNumber(board, called));
-		boards = boards.filter(board => !getBoardVictoryStatus(board));
+		boards = boards.filter(board => !getIsWinner(board));
 	}
 
 	// Keep playing until the losing board wins
 	const [losingBoard] = boards;
-	while (!getBoardVictoryStatus(losingBoard)) {
+	while (!getIsWinner(losingBoard)) {
 		called = calledNumbers.shift();
 		markCalledNumber(losingBoard, called);
 	}
