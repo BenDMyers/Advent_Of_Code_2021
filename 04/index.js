@@ -9,7 +9,7 @@ const [calledNumbersInput, ...boardsInput] = fs
 /**
  * Determines whether a board is in a win condition.
  * Numbers that have been called have been replaced with `false`.
- * @param {(number|false)[][]} board - two-dimensional of numbers, where called numbers have been replaced by `false`
+ * @param {(number|false)[][]} board - two-dimensional array of numbers, where called numbers have been replaced by `false`
  * @returns {boolean} true if the board is a winner, false otherwise
  */
 function getBoardVictoryStatus(board) {
@@ -21,7 +21,6 @@ function getBoardVictoryStatus(board) {
 				continue rows;
 			}
 		}
-		console.log({row})
 		return true;
 	}
 
@@ -33,7 +32,6 @@ function getBoardVictoryStatus(board) {
 				continue columns;
 			}
 		}
-		console.log({col})
 		return true;
 	}
 
@@ -41,9 +39,9 @@ function getBoardVictoryStatus(board) {
 }
 
 /**
- * 
- * @param {(number|false)[][]} board 
- * @param {number} calledNumber 
+ * Marks the called number as `false` in the given board
+ * @param {(number|false)[][]} board - two-dimensional array of numbers, where called numbers have been replaced by `false`
+ * @param {number} calledNumber - most recently called number; all instances of this number in `board` will be replaced with `false`
  */
 function markCalledNumber(board, calledNumber) {
 	for (let row = 0; row < board.length; row++) {
@@ -60,12 +58,14 @@ function markCalledNumber(board, calledNumber) {
 	const calledNumbers = calledNumbersInput.split(',').map(x => parseInt(x));
 	const boards = boardsInput.map(board => board.split('\n').map(row => row.trim().split(/\s+/).map(cell => parseInt(cell))));
 
+	// Keep playing rounds of bingo until one board wins
 	let called;
 	while (!boards.some(getBoardVictoryStatus)) {
 		called = calledNumbers.shift();
 		boards.forEach(board => markCalledNumber(board, called));
 	}
 	
+	// Determine score of winning board (sum of all remaining values)
 	const [winningBoard] = boards.filter(getBoardVictoryStatus);
 	const sum = winningBoard
 		.flat() // Convert two-dimensional array to one-dimensional array
@@ -85,6 +85,7 @@ function markCalledNumber(board, calledNumber) {
 	const calledNumbers = calledNumbersInput.split(',').map(x => parseInt(x));
 	let boards = boardsInput.map(board => board.split('\n').map(row => row.trim().split(/\s+/).map(cell => parseInt(cell))));
 
+	// Determine which board is the last board to win
 	let called;
 	while (boards.length > 1) {
 		called = calledNumbers.shift();
@@ -92,12 +93,14 @@ function markCalledNumber(board, calledNumber) {
 		boards = boards.filter(board => !getBoardVictoryStatus(board));
 	}
 
+	// Keep playing until the losing board wins
 	const [losingBoard] = boards;
 	while (!getBoardVictoryStatus(losingBoard)) {
 		called = calledNumbers.shift();
 		markCalledNumber(losingBoard, called);
 	}
 
+	// Determine score of losing board (sum of all remaining values)
 	const sum = losingBoard
 		.flat() // Convert two-dimensional array to one-dimensional array
 		.filter(x => x) // Filter out falsy values
