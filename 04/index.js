@@ -6,10 +6,6 @@ const [calledNumbersInput, ...boardsInput] = fs
 	.readFileSync(inputPath, 'utf-8')
 	.split('\n\n');
 
-const calledNumbers = calledNumbersInput.split(',').map(x => parseInt(x));
-const boards = boardsInput.map(board => board.split('\n').map(row => row.trim().split(/\s+/).map(cell => parseInt(cell))));
-
-// Part 1
 /**
  * Determines whether a board is in a win condition.
  * Numbers that have been called have been replaced with `false`.
@@ -59,20 +55,58 @@ function markCalledNumber(board, calledNumber) {
 	}
 }
 
-let called;
-while (!boards.some(getBoardVictoryStatus)) {
-	called = calledNumbers.shift();
-	boards.forEach(board => markCalledNumber(board, called));
-}
+// Part 1
+(function() {
+	const calledNumbers = calledNumbersInput.split(',').map(x => parseInt(x));
+	const boards = boardsInput.map(board => board.split('\n').map(row => row.trim().split(/\s+/).map(cell => parseInt(cell))));
 
-const [winningBoard] = boards.filter(getBoardVictoryStatus);
-const sum = winningBoard
-	.flat() // Convert two-dimensional array to one-dimensional array
-	.filter(x => x) // Filter out falsy values
-	.reduce((total, num) => total + num) // Sum up remaining values
-console.log({
-	winningBoard,
-	called,
-	sum,
-	product: sum * called
-});
+	let called;
+	while (!boards.some(getBoardVictoryStatus)) {
+		called = calledNumbers.shift();
+		boards.forEach(board => markCalledNumber(board, called));
+	}
+	
+	const [winningBoard] = boards.filter(getBoardVictoryStatus);
+	const sum = winningBoard
+		.flat() // Convert two-dimensional array to one-dimensional array
+		.filter(x => x) // Filter out falsy values
+		.reduce((total, num) => total + num) // Sum up remaining values
+	
+	console.log({
+		winningBoard,
+		called,
+		sum,
+		product: sum * called
+	});
+})();
+
+// Part 2
+(function() {
+	const calledNumbers = calledNumbersInput.split(',').map(x => parseInt(x));
+	let boards = boardsInput.map(board => board.split('\n').map(row => row.trim().split(/\s+/).map(cell => parseInt(cell))));
+
+	let called;
+	while (boards.length > 1) {
+		called = calledNumbers.shift();
+		boards.forEach(board => markCalledNumber(board, called));
+		boards = boards.filter(board => !getBoardVictoryStatus(board));
+	}
+
+	const [losingBoard] = boards;
+	while (!getBoardVictoryStatus(losingBoard)) {
+		called = calledNumbers.shift();
+		markCalledNumber(losingBoard, called);
+	}
+
+	const sum = losingBoard
+		.flat() // Convert two-dimensional array to one-dimensional array
+		.filter(x => x) // Filter out falsy values
+		.reduce((total, num) => total + num) // Sum up remaining values
+	
+	console.log({
+		losingBoard,
+		called,
+		sum,
+		product: sum * called
+	});
+})()
