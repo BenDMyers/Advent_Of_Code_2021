@@ -11,9 +11,9 @@ const lines = fs
 	});
 	
 /**
- * 
+ * Determines whether a line is horizontal (its y value remains unchanged)
  * @param {[[number, number], [number, number]]} line
- * @returns {boolean}
+ * @returns {boolean} true if horizontal, false otherwise
  */
 function isHorizontal(line) {
 	const [beginning, end] = line;
@@ -23,11 +23,11 @@ function isHorizontal(line) {
 }
 
 /**
- * 
+ * Determines whether a line is vertical (its x value remains unchanged)
  * @param {[[number, number], [number, number]]} line
- * @returns {boolean}
+ * @returns {boolean} true if vertical, false otherwise
  */
-	function isVertical(line) {
+function isVertical(line) {
 	const [beginning, end] = line;
 	const [x1] = beginning;
 	const [x2] = end;
@@ -71,8 +71,12 @@ for (const line of nondiagonalLines) {
 	}
 }
 
-const numPart1Overlaps = Object.values(part1Field).filter(count => count > 1).length;
+const numPart1Overlaps = Object
+	.values(part1Field)
+	.filter(count => count > 1)
+	.length;
 console.log(numPart1Overlaps);
+
 
 // Part 2
 /** @type {Object<string, number>} */
