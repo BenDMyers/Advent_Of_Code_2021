@@ -7,7 +7,10 @@ const lines = fs
 	.split('\n')
 	.map((line) => {
 		const [x1, y1, x2, y2] = line.matchAll(/\d+/g);
-		return [[parseInt(x1), parseInt(y1)], [parseInt(x2), parseInt(y2)]];
+		return [
+			[parseInt(x1), parseInt(y1)],
+			[parseInt(x2), parseInt(y2)]
+		];
 	});
 	
 /**
