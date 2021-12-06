@@ -34,3 +34,4 @@ node 07
 | [Day 3](/03/) | Most and least common bits in a list of bitstrings |
 | [Day 4](/04/) | Bingo |
 | [Day 5](/05/) | Representing multidimensional spaces as objects |
+| [Day 6](/06/) | Unsynchronized exponential growth |
