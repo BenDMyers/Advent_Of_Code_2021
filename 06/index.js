@@ -9,6 +9,7 @@ let lanternfishInput = fs
 
 const NUM_DAYS = 256;
 
+// Part 1
 (function() {
 	let part1Lanternfish = [...lanternfishInput];
 	
@@ -26,6 +27,7 @@ const NUM_DAYS = 256;
 	console.log(part1Lanternfish.length);
 })();
 
+// Part 2
 (function () {
 	/** @type {Object<number, number>} */
 	const lanternfishDescendantMemo = {};
