@@ -33,8 +33,9 @@ let max = Math.max(...crabs);
 // Part 2
 (function () {
 	/**
+	 * Gets the fuel required to get a crab's submarine to span a given distance
 	 * @param {number} distance 
-	 * @returns {number}
+	 * @returns {number} fuel required
 	 */
 	function getFuelRequired(distance) {
 		let fuelRequired = 0;
