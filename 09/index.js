@@ -106,8 +106,9 @@ let lowPoints = [];
 	}
 
 	/**
-	 * 
-	 * @param {{row: number, col: number}} location 
+	 * Gets the height of a given location
+	 * @param {{row: number, col: number}} location
+	 * @returns {number}
 	 */
 	function getHeight(location) {
 		const {row, col} = location;
@@ -115,7 +116,23 @@ let lowPoints = [];
 	}
 
 	/**
-	 * 
+	 * Determines the frequency of every element in an array
+	 * @param {array} arr 
+	 * @return {Object<string, number>}
+	 */
+	function getFrequencies(arr) {
+		return arr.reduce((frequencies, element) => {
+			if (frequencies[element]) {
+				frequencies[element]++;
+			} else {
+				frequencies[element] = 1;
+			}
+			return frequencies;
+		}, {});
+	}
+
+	/**
+	 * Recursively determine which adjacent cells are part of the same basin
 	 * @param {{row: number, col: number}} location 
 	 * @param {number} basinId
 	 */
@@ -136,23 +153,8 @@ let lowPoints = [];
 	}
 
 	lowPoints.forEach(calculateBasin);
-	// for (let i = 0; i < basins.length; i++) {
-	// 	let row = '';
-	// 	for (let j = 0; j < basins[i].length; j++) {
-	// 		row += basins[i][j] ?? '.';
-	// 	}
-	// 	console.log(row);
-	// }
-	let basinFrequencies = basins.flat().sort();
-	const basinSizes = [];
-	do {
-		let basinId = basinFrequencies[0];
-		let totalBasinCells = basinFrequencies.length;
-		basinFrequencies = basinFrequencies.filter(id => (id !== basinId));
-		let remainingBasinCells = basinFrequencies.length;
-		let basinSize = totalBasinCells - remainingBasinCells;
-		basinSizes.push(basinSize);
-	} while (basinFrequencies.length > 0)
+	const basinFrequencies = basins.flat().sort();
+	const basinSizes = Object.values(getFrequencies(basinFrequencies));
 	basinSizes.sort((a, b) => b - a);
 	const [first, second, third] = basinSizes;
 	console.log(first * second * third);
