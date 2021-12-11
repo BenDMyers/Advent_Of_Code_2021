@@ -79,7 +79,7 @@ const lines = fs
 // Part 2
 (function() {
 	/**
-	 * 
+	 * Determines characters in `longer` that are not in `shorter`
 	 * @param {string} shorter the shorter of two strings
 	 * @param {string} longer the longer of two strings
 	 * @returns {string} characters that are in the longer string, but not the shorter string
