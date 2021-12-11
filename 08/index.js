@@ -4,29 +4,21 @@ const inputPath = useTestInput ? `${__dirname}/.test` : `${__dirname}/.input`;
 
 /*
 	2 segments:
-		- 1 ✅
+		- 1
 	3 segments:
-		- 7 ✅
+		- 7
 	4 segments:
-		- 4 ✅
+		- 4
 	5 segments:
-		- 2 ✅
-		- 3 ✅
-		- 5 ✅
+		- 2
+		- 3
+		- 5
 	6 segments:
-		- 0 ✅
-		- 6 ✅
-		- 9 ✅
+		- 0
+		- 6
+		- 9
 	7 segments:
-		- 8 ✅
-
-	a ✅
-	b
-	c ✅
-	d 
-	e ✅
-	f
-	g
+		- 8
  */
 
 /**
@@ -114,11 +106,9 @@ const lines = fs
 		displays[7] = allDigits.find(display => (display.length === SEGMENTS['7'].length));
 		displays[8] = allDigits.find(display => (display.length === SEGMENTS['8'].length));
 
-		// 7 uses the same segments as 1, plus "a" - solve for "a"
-		const a = getAddedCharacters(displays[1], displays[7]);
-
 		// 0 and 9 both have "c" and "f" (the segments that make up 1)
 		// but 6 does not have "c"
+		// Known wires: 14678
 		displays[6] = allDigits.find(digit => {
 			const cf = displays[1];
 			const hasSixSegments = digit.length === 6;
@@ -130,6 +120,7 @@ const lines = fs
 		const c = getAddedCharacters(displays[6], displays[8]);
 
 		// 5 is the only five-digit display missing a "c"
+		// Known wires: 145678
 		displays[5] = allDigits.find(digit => {
 			const hasFiveSegments = digit.length === 5;
 			const containsC = digit.includes(c);
@@ -140,6 +131,7 @@ const lines = fs
 		const e = getAddedCharacters(displays[5], displays[6]);
 
 		// The only segment 9 is missing is "e"
+		// Known wires: 1456789
 		displays[9] = allDigits.find(digit => {
 			const hasSixSegments = digit.length === 6;
 			const containsE = digit.includes(e);
@@ -147,6 +139,7 @@ const lines = fs
 		});
 
 		// 0 is the last unsolved six-segment display
+		// Known wires: 01456789
 		displays[0] = allDigits.find(digit => {
 			const hasSixSegments = digit.length === 6;
 			const isSolved = Object.values(displays).includes(digit);
@@ -154,54 +147,21 @@ const lines = fs
 		});
 
 		// 2 has "e," but 3 does not
+		// Known wires: 012456789
 		displays[2] = allDigits.find(digit => {
 			const hasFiveSegments = digit.length === 5;
 			const containsE = digit.includes(e);
 			const isSolved = Object.values(displays).includes(digit);
 			return hasFiveSegments && containsE && !isSolved;
 		});
-
-		const three = allDigits.filter(digit => {
-			const hasFiveSegments = digit.length === 5;
-			const isSolved = Object.values(displays).includes(digit);
-			return hasFiveSegments && !isSolved;
-		});
 		
+		// Known wires: 0123456789
 		displays[3] = allDigits.find(digit => {
 			const hasFiveSegments = digit.length === 5;
 			const isSolved = Object.values(displays).includes(digit);
 			return hasFiveSegments && !isSolved;
 		});
 
-		// 9 is the last unsolved six-segment display
-		// displays[9] = Object.values(allDigits);
-
-		// 8 = 9 + "e"
-		// const e = getAddedCharacters(displays[9], displays[8]);
-
-		// 5 is the only unsolved five-segment display without "e" and "g"
-		// displays[5] = allDigits.find(digit => {
-		// 	const hasFiveSegments = digit.length === 5;
-		// 	const containsE = digit.includes(e);
-		// 	return hasFiveSegments && !containsE;
-		// });
-
-		// 2 is an unsolved five-segment display that contains "e" and "g", as well as three other wires
-		// displays[2] = allDigits.find(digit => {
-		// 	const hasFiveSegments = digit.length === 5;
-		// 	const isSolved = Object.values(displays).includes(digit);
-		// 	const containsEG = digit.includes(eg[0]) && digit.includes(eg[1]);
-		// 	return hasFiveSegments && !isSolved && containsEG;
-		// });
-
-		// 3 is the last unsolved five-segment display
-		// displays[3] = allDigits.find(digit => {
-		// 	const hasFiveSegments = digit.length === 5;
-		// 	const isSolved = Object.values(displays).includes(digit);
-		// 	return hasFiveSegments && !isSolved;
-		// });
-
-		// console.log(displays)
 		// Reshape results so given a set of wires, we can get the appropriate digit
 		let wiresToDigit = {};
 		for (const digit in displays) {
@@ -209,7 +169,6 @@ const lines = fs
 			wiresToDigit[wires] = digit;
 		}
 
-		// console.log({inputDigits})
 		return inputDigits
 			.map(wires => wiresToDigit[wires])
 			.join('');
