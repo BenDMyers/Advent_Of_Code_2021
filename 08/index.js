@@ -35,18 +35,24 @@ const lines = fs
 	});
 
 // Part 1
-let numOnes = 0;
-let numFours = 0;
-let numSevens = 0;
-let numEights = 0;
-
-for (let line of lines) {
-	for (let inputDigit of line.inputDigits) {
-		if (inputDigit.length === CANONICAL_SEGMENTS['1'].length) numOnes++;
-		if (inputDigit.length === CANONICAL_SEGMENTS['4'].length) numFours++;
-		if (inputDigit.length === CANONICAL_SEGMENTS['7'].length) numSevens++;
-		if (inputDigit.length === CANONICAL_SEGMENTS['8'].length) numEights++;
+(function () {
+	let numOnes = 0;
+	let numFours = 0;
+	let numSevens = 0;
+	let numEights = 0;
+	
+	for (let line of lines) {
+		for (let inputDigit of line.inputDigits) {
+			if (inputDigit.length === CANONICAL_SEGMENTS['1'].length)
+				numOnes++;
+			if (inputDigit.length === CANONICAL_SEGMENTS['4'].length)
+				numFours++;
+			if (inputDigit.length === CANONICAL_SEGMENTS['7'].length)
+				numSevens++;
+			if (inputDigit.length === CANONICAL_SEGMENTS['8'].length)
+				numEights++;
+		}
 	}
-}
-
-console.log(numOnes + numFours + numSevens + numEights);
+	
+	console.log(numOnes + numFours + numSevens + numEights);
+})();
