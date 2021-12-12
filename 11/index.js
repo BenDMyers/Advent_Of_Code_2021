@@ -10,8 +10,8 @@ let octopi = fs
 	);
 
 /**
- * 
- * @param {any[][]} grid 
+ * Prints out a grid for debugging purposes
+ * @param {any[][]} grid
  */
 function printGrid(grid) {
 	for (let row of grid) {
@@ -44,8 +44,10 @@ function printGrid(grid) {
 	return neighboringOctopi;
 }
 
-let numFlashes = 0;
-
+/**
+ * Steps through a round of octopi charging up and flashing
+ * @returns {number} the number of octopi who flashed during this step, used for Part 2
+ */
 function step() {
 	const flashedOctopi = {};
 
@@ -76,7 +78,6 @@ function step() {
 
 			// Mark as flashed
 			flashedOctopi[`${row},${col}`] = true;
-			numFlashes++;
 
 			// Increment neighbors, and queue up any neighbors that are now also about to flash
 			const neighbors = getNeighboringOctopi(flasher);
@@ -93,7 +94,6 @@ function step() {
 
 	// Reset all flashed octopi to 0
 	for (const location of Object.keys(flashedOctopi)) {
-
 		const [row, col] = location.split(',').map(num => Number(num));
 		newOctopi[row][col] = 0;
 	}
@@ -103,11 +103,13 @@ function step() {
 }
 
 // Part 1
+let totalFlashes = 0;
 let i = 0;
 for (; i < 100; i++) {
-	step();
+	let flashes = step();
+	totalFlashes += flashes;
 }
-console.log(numFlashes);
+console.log(totalFlashes);
 
 // Part 2
 let flashesPerStep = 0;
@@ -115,6 +117,5 @@ let totalNumOctopi = octopi.flat().length;
 while (flashesPerStep !== totalNumOctopi) {
 	i++;
 	flashesPerStep = step();
-	printGrid(octopi);
 }
 console.log(i);
