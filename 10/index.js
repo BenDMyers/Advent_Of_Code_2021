@@ -24,6 +24,11 @@ const MATCHES = {
 		'>': 25137,
 	};
 
+	/**
+	 * If this line is corrupted, calculates the score of the line based on what the first incorrect closing bracket was
+	 * @param {string[]} line array of opening and closing brackets
+	 * @returns {number}
+	 */
 	function getLineScore(line) {
 		const stack = [];
 
@@ -57,7 +62,7 @@ const MATCHES = {
 	};
 
 	/**
-	 * 
+	 * Scores a given line based on which closing brackets would be required to complete the string
 	 * @param {string[]} line 
 	 * @returns {number}
 	 */
