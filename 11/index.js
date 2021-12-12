@@ -1,6 +1,7 @@
 const fs = require('fs');
 const useTestInput = process.argv.includes('--test');
 const inputPath = useTestInput ? `${__dirname}/.test` : `${__dirname}/.input`;
+
 let octopi = fs
 	.readFileSync(inputPath, 'utf-8')
 	.split('\n')
@@ -32,21 +33,29 @@ function printGrid(grid) {
 	const hasRight = col < (octopi[row].length - 1);
 
 	const neighboringOctopi = [];
-	if (hasUp && hasLeft) neighboringOctopi.push({row: row - 1, col: col - 1});
-	if (hasUp) neighboringOctopi.push({row: row - 1, col});
-	if (hasUp && hasRight) neighboringOctopi.push({row: row - 1, col: col + 1});
-	if (hasLeft) neighboringOctopi.push({row, col: col - 1});
-	if (hasRight) neighboringOctopi.push({row, col: col + 1});
-	if (hasDown && hasLeft) neighboringOctopi.push({row: row + 1, col: col - 1});
-	if (hasDown) neighboringOctopi.push({row: row + 1, col});
-	if (hasDown && hasRight) neighboringOctopi.push({row: row + 1, col: col + 1});
+	if (hasUp && hasLeft)
+		neighboringOctopi.push({row: row - 1, col: col - 1});
+	if (hasUp)
+		neighboringOctopi.push({row: row - 1, col});
+	if (hasUp && hasRight)
+		neighboringOctopi.push({row: row - 1, col: col + 1});
+	if (hasLeft)
+		neighboringOctopi.push({row, col: col - 1});
+	if (hasRight)
+		neighboringOctopi.push({row, col: col + 1});
+	if (hasDown && hasLeft)
+		neighboringOctopi.push({row: row + 1, col: col - 1});
+	if (hasDown)
+		neighboringOctopi.push({row: row + 1, col});
+	if (hasDown && hasRight)
+		neighboringOctopi.push({row: row + 1, col: col + 1});
 
 	return neighboringOctopi;
 }
 
 /**
  * Steps through a round of octopi charging up and flashing
- * @returns {number} the number of octopi who flashed during this step, used for Part 2
+ * @returns {number} the number of octopi who flashed during this step
  */
 function step() {
 	const flashedOctopi = {};
