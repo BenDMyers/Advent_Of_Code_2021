@@ -108,3 +108,7 @@ const [firstInstruction, ...remainingInstructions] = foldInstructions;
 printPaper();
 fold(firstInstruction);
 console.log(dots.length);
+
+// Part 2
+remainingInstructions.forEach(fold);
+printPaper();
