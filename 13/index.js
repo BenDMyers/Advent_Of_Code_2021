@@ -16,7 +16,7 @@ const foldInstructions = instructionsInput
 	})
 
 /**
- * 
+ * Folds the paper over the given vertical line
  * @param {number} crease vertical line (y = ?) to fold over
  */
 function foldUp(crease) {
@@ -39,7 +39,7 @@ function foldUp(crease) {
 }
 
 /**
- * 
+ * Folds the paper over the given horizontal line
  * @param {number} crease horizontal line (x = ?) to fold over
  */
 function foldLeft(crease) {
@@ -62,7 +62,7 @@ function foldLeft(crease) {
 }
 
 /**
- * 
+ * Folds the paper along the correct axis.
  * @param {['fold along x' | 'fold along y', number]} instruction 
  */
 function fold(instruction) {
@@ -74,6 +74,9 @@ function fold(instruction) {
 	}
 }
 
+/**
+ * Prints out the current state of the folded-up paper
+ */
 function printPaper() {
 	let {maxX, maxY} = dots.reduce(({maxX, maxY}, dot) => {
 		const [x, y] = dot.split(',').map(coord => Number(coord));
