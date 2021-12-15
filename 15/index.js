@@ -57,12 +57,20 @@ const riskLevels = lines.map(line => line.split('').map(riskLevel => Number(risk
 		return isFirst && isFirstCol;
 	}
 
+	/** @type {Object<string, number>} */
+	const MEMOIZED_RISKS = {};
+
 	/**
 	 * 
 	 * @param {Cell} cell 
 	 * @returns {number}
 	 */
 	function getMinimumRisk(cell) {
+		const memoKey = `${cell.row},${cell.col}`;
+		if (MEMOIZED_RISKS[memoKey]) {
+			return MEMOIZED_RISKS[memoKey];
+		}
+
 		const currentRisk = isStart(cell) ? 0 : riskLevels[cell.row][cell.col];
 
 		if (isEnd(cell)) {
@@ -71,7 +79,10 @@ const riskLevels = lines.map(line => line.split('').map(riskLevel => Number(risk
 
 		const viableNeighbors = getNeighbors(cell);
 		const risks = viableNeighbors.map(getMinimumRisk);
-		return Math.min(...risks) + currentRisk;
+		const minRisk = Math.min(...risks) + currentRisk;
+
+		MEMOIZED_RISKS[memoKey] = minRisk;
+		return minRisk;
 	}
 
 	const minimumRisk = getMinimumRisk({col: 0, row: 0});
